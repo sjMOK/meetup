@@ -22,14 +22,9 @@ class Reservation(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
 
-    class Meta:
-        db_table = "reservation"
-
 
 class DailyReservationCard(models.Model):
     id = models.AutoField(primary_key=True)
-    reservation = models.ForeignKey("Reservation", models.DO_NOTHING)
-    user = models.ForeignKey("users.User", models.DO_NOTHING)
-
-    class Meta:
-        db_table = "reservation_attendees"
+    room = models.ForeignKey(Room, models.DO_NOTHING)
+    image_url = models.CharField(max_length=200)
+    sequence = models.IntegerField()
