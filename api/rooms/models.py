@@ -17,27 +17,19 @@ class Room(models.Model):
 
 class Reservation(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(
-        User, related_name="reservation", on_delete=models.CASCADE, db_column="user_id"
-    )
-    start_at = models.DateTimeField()
-    end_at = models.DateTimeField()
+    user = models.ForeignKey("users.User", models.DO_NOTHING)
+    room = models.ForeignKey("Room", models.DO_NOTHING)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
 
-    class ReservationStatus(models.TextChoices):
-        NRESERVED = "NRES", _("NotReserved")
-        RESERVED = "RES", _("Reserved")
-        BLOCKED = "BLK", _("Blocked")
-
-    reservation_status = models.CharField(
-        max_length=16,
-        choices=ReservationStatus.choices,
-        default=ReservationStatus.NRESERVED,
-    )
+    class Meta:
+        db_table = "reservation"
 
 
 class DailyReservationCard(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField(auto_now_add=True)
-    room = models.ForeignKey(
-        Room, related_name="reservation", on_delete=models.CASCADE, db_column="room_id"
-    )
+    reservation = models.ForeignKey("Reservation", models.DO_NOTHING)
+    user = models.ForeignKey("users.User", models.DO_NOTHING)
+
+    class Meta:
+        db_table = "reservation_attendees"
