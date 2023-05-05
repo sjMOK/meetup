@@ -2,19 +2,15 @@ from django.db import models
 from users.models import User
 from django.utils.translation import gettext_lazy as _
 class RoomImages(models.Model):
-    id = models.AutoField(primary_key=True)
-    image=models.ImageField(upload_to="images/")
+    id = models.BigAutoField(primary_key=True)
+    image=models.ImageField(upload_to="images/", db_column="image")
 
-    class Meta:
-        db_table = 'room_images'
 
 class Room(models.Model):
-    id = models.AutoField(primary_key=True)
-    name=models.CharField(help_text="product name",blank=False, max_length=100, null=False)
+    id = models.BigAutoField(primary_key=True)
+    name=models.CharField(blank=False, max_length=100, null=False)
     discription=models.TextField()
-    image=models.ForeignKey(RoomImages, related_name="room", on_delete=models.CASCADE, db_column="room_image_id")
-    class Meta:
-        db_table = 'room'
+    images = models.ForeignKey(RoomImages, on_delete=models.CASCADE, null=True)
 
 class Reservation(models.Model):
     id = models.AutoField(primary_key=True)
@@ -33,8 +29,7 @@ class Reservation(models.Model):
         default=ReservationStatus.NRESERVED,
     )
 
-    class Meta:
-        db_table = 'reservation'
+
 
 class DailyReservationCard(models.Model):
     id = models.AutoField(primary_key=True)

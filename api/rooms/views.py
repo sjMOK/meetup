@@ -1,3 +1,4 @@
+import json
 from rest_framework import  viewsets
 from rest_framework.response import Response
 from .models import  Room, RoomImages
@@ -17,15 +18,15 @@ class RoomView(viewsets.ModelViewSet):
         serializer=RoomSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer=RoomSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                serializer.save(user=request.user.id)
-                return Response({"message":"complete"})
-            except:
-                return Response({"message":"fail"})
-        return Response({"message":"invalid form"})
+    # def create(self, request):
+    #     serializer=RoomSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         try:
+    #             serializer.save()
+    #             return Response({"message":"complete"})
+    #         except:
+    #             return Response({"message":"fail"})
+    #     return Response({"message":"invalid form"})
  
 
 class RoomRetrieveView(viewsets.ModelViewSet):
