@@ -131,3 +131,5 @@ dmypy.json
 migrations/
 meetup.pem
 mysql/
+
+media/
